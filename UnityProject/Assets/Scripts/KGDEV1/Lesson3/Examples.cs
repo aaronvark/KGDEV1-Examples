@@ -100,6 +100,9 @@ namespace KGDEV_1_3 {
 
 		public static void Unregister(Enemy e) {
 			Singleton.enemyList.Remove(e);
+			//important: remember to remove functions from the delegate instance!
+			// when they become "stale" (this example: enemy gameObject destroyed)
+			e.onDeath -= Singleton.EnemyDied;
 			//static class version
 			//enemyList.Remove(e);
 		}
