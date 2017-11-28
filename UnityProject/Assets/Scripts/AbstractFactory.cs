@@ -6,12 +6,14 @@ public abstract class AbstractFactory {
 
 	public static AbstractFactory GetInstance() {
 		switch (Application.platform) {
+		#if !DISABLE_SYSTEM
 			case RuntimePlatform.WindowsPlayer:
 				return new WindowsImplementation();
 			case RuntimePlatform.IPhonePlayer:
 				return new IPhoneImplementation();
 			case RuntimePlatform.Android:
 				return new AndroidImplementation();
+		#endif
 			default:
 				//Does nothing, always "succeeds" its requested actions
 				//This is for working in editor mainly.
