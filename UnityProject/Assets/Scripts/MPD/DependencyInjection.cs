@@ -93,7 +93,17 @@ namespace MPD {
 
 	//Example of a static construction method for use with the non-mono PlayerController
 	public static class InputManager {
+		static IInputSystem instance;
+
 		public static IInputSystem GetInputSystem() {
+			if (instance == null) {
+				instance = CreateInstance ();
+			}
+
+			return instance;
+		}
+
+		static IInputSystem CreateInstance() {
 			//platform dependent code
 			return new UnityInputSystem();
 		}
