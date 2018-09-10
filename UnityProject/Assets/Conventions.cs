@@ -45,15 +45,15 @@ namespace Conventions {
 			bool condition = true;
 			//standard if-statement (allowed, duh)
 			if ( condition ) {
-				int x = 5;
+				//int x = 5;
 			}
 
 			//two-line if-statement (streng afraden)
-			if ( condition )
-				int x = 5;
+			//if ( condition )
+			//	int x = 5;
 
 			//one-line if-statement (mag, aangeraden voor korte instructies)
-			if ( condition ) int x = 5;
+			//if ( condition ) int x = 5;
 
 			//ternare operator -> nested = banned
 			bool doIt = x > 5 ? ( y < 5 ? false : true ) : false;
