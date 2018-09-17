@@ -55,7 +55,7 @@ namespace Conventions {
 			//one-line if-statement (mag, aangeraden voor korte instructies)
 			//if ( condition ) int x = 5;
 
-			//ternare operator -> nested = banned
+			//ternary operator -> nested = banned
 			bool doIt = x > 5 ? ( y < 5 ? false : true ) : false;
 		}
 

@@ -2,14 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public interface IFeedable {
+	///<summary>Returns true if feeding successful</summary>
+	bool Feed();
+}
+
 public class DierenBeurs : MonoBehaviour {
+
+	private int ledenVanDeBeurs = 1;
+	public int LedenVanDeBeurs {
+		get {
+			//tellen van hoe vaak dit is gebruikt?
+			//notify mensen die op dit event zijn geregistreerd
+			return ledenVanDeBeurs;
+		}
+		//protected set;
+		private set {
+			if ( value == 0 ) {
+				//dissolve organisation
+			}
+			ledenVanDeBeurs = value;
+		}
+	}
 
 	// Use this for initialization
 	void Start () {
 		//mag niet als class abstract is
 		//Animal myAnimal = new Animal();
 
-		Animal[] animals = new Animal[20];
+		IFeedable[] animals = new IFeedable[20];
 		for( int i = 0; i < 10; ++i ) {
 			animals[i] = new Dog();
 		}
@@ -17,13 +38,17 @@ public class DierenBeurs : MonoBehaviour {
 			animals[i] = new Cat();
 		}
 
-		foreach( Animal a in animals ) {
-			a.Eat();
+		foreach( IFeedable a in animals ) {
+			a.Feed();
 		}
 	}
 }
 
-abstract class Animal {
+abstract class Animal : IFeedable {
+	public bool Feed() {
+		return false;
+	}
+
 	public virtual void Eat() {
 		Debug.Log("Om nom nom");
 	}
