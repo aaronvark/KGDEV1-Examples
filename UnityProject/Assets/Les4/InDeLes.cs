@@ -5,11 +5,13 @@ using UnityEngine;
 namespace InDeLes {
 
 	public /*static*/ class Ding {
+		//Er kan er maar een zijn (kijk eens naar Highlander)
 		public static int numDingen = 0;
 
-		//singleton
+		//Singleton :static, globally accessible, reference to self
 		private static Ding instance = null; //new Ding();
 		public static Ding Instance {
+			//lazy, just-in-time, initialization
 			get {
 				//besta ik al?
 				if ( instance == null ) {
@@ -23,14 +25,17 @@ namespace InDeLes {
 		}
 
 		public Ding() {
+			//zelfde variabele reference voor elke instance van Ding
 			numDingen++;
 		}
 	}
 
 	public class AnderDing {
 		public AnderDing() {
-			//C++:
+			//In C++ kan dit volgens mij ook (language feature):
 			//static int x = 5;
+			// Tip: Dit heeft Ronimo dus specifiek banned in hun coding guidelines
+
 			for( int i = 0; i < 5; ++i ) {
 				Ding mijnDing = new Ding();
 			}
@@ -55,7 +60,10 @@ namespace InDeLes {
 	public class Enemy {
 		public DamageEvent onDeath;
 		public Enemy() {
+			//Enemy gaat insta-dood on-spawn (niet echt een practical use-case)
+			// - Zie Robocop 2
 			if ( onDeath != null ) {
+				//optioneel, maar wel handig: reference naar "sender" van het event meesturen
 				onDeath(this, 9999999);
 			}
 		}
