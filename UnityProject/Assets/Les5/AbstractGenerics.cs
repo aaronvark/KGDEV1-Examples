@@ -5,18 +5,18 @@ using UnityEngine;
 namespace Les5 {
 
 	public delegate void IStateEvent(IState state);
-	public delegate void AStateEvent(AState state);
 
 	//Je kan een interface gebruiken
 	public interface IState {
-		event IStateEvent onState;
+		event IStateEvent OnState;
 		void Start();
 		void Run();
+		void Completed();
 	}
 
 	//Die je dan zo implementeerd voor een class die "telt"
 	public class CountToHundredState : IState {
-		public event IStateEvent onState;
+		public event IStateEvent OnState;
 
 		int count = 0;
 		public void Start() {
@@ -28,21 +28,25 @@ namespace Les5 {
 
 			if ( count > 100 ) {
 				//Go to some other state
-				onState(new CountToHundredState());
+				OnState(new CountToHundredState());
 			}
+		}
+
+		public void Completed() {
+			
 		}
 	}
 
 	//Maar ook een abstract class
-	public abstract class AState {
+	public abstract class AState : IState {
 		//Deze event is al bruikbaar, en hoef je dus nergens te implementeren!
 		
 		//Alleen classes die ervan van AState mogen onState invoken
-		protected AStateEvent onState;	
+		protected IStateEvent onState;	
 		//Hier gebruiken we een "public event" om de delegate aan te spreken, zonder dat je hem mag "invoken"
 		//Dit is waar de "event" keyword voor is, het is een soort "aanspreekpunt", zonder dat je direct toegang verleent
 		//Meer info over delegates & events: http://csharpindepth.com/Articles/Chapter2/Events.aspx
-		public event AStateEvent OnState {
+		public event IStateEvent OnState {
 			add {
 				onState += value;
 			}
@@ -76,13 +80,13 @@ namespace Les5 {
 	//En dan nog een voorbeeld van hoe je states kunt gebruiken:
 	//Dit is een soort pattern, de "Finite State Machine" die je veel ziet in games
 	public class FiniteStateMachine {
-		protected AState currentState;
+		protected IState currentState;
 
-		public FiniteStateMachine( AState beginState ) {
+		public FiniteStateMachine( IState beginState ) {
 			SetState(beginState);
 		}
 
-		private void SetState( AState newState ) {
+		private void SetState( IState newState ) {
 			//Clean up old state
 			if ( currentState != null ) {
 				currentState.Completed();
